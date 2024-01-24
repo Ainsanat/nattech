@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "86251133947",
+    "project_id": "nattech-d7045",
+    "storage_bucket": "nattech-d7045.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:86251133947:android:0c6c542a78f1ac50fc495e",
+        "android_client_info": {
+          "package_name": "com.example.nattech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA58KxRCthrtzyoxprPJ0tWoI9x4ESRh50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
