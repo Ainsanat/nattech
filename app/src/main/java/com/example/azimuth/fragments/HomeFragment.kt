@@ -24,6 +24,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -54,8 +56,10 @@ class HomeFragment : Fragment() {
             LocationServices.getFusedLocationProviderClient(requireActivity())
         getCurrentLocationUser()
 
+        getCurrentUser()
 //        fetchDataUser()
-        updateUserProfile()
+//        updateUserProfile()
+
 //        val timeStamp = SimpleDateFormat(
 //            "EEEE MMMM dd, yyyy",
 //            Locale.ENGLISH
@@ -77,6 +81,17 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun getCurrentUser() {
+        val user = Firebase.auth.currentUser
+        user?.let {
+            val displayName = it.displayName
+            val email = it.email
+
+            binding.userName.text = displayName.toString()
+            binding.curDate.text = email.toString()
+        }
     }
 
     private fun getCurrentLocationUser() {
@@ -161,8 +176,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUserProfile() {
-//        val user = Firebase.auth.currentUser
-//        val uid = user!!.uid
         databaseRef = FirebaseDatabase.getInstance().getReference("Users")
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

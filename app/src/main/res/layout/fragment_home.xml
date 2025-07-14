@@ -38,7 +38,7 @@
             android:layout_below="@+id/user_name"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@+id/user_pic"
-            android:text="Date9"
+            android:text="Date"
             android:textSize="15sp" />
     </RelativeLayout>
 
