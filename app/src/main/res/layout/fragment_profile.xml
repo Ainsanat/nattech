@@ -5,70 +5,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
+    android:paddingTop="40dp"
+    android:paddingHorizontal="16dp"
+    android:orientation="vertical"
     tools:context=".fragments.ProfileFragment">
 
-    <RelativeLayout
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_marginTop="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/azimuth"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/gray"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/profile_name"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:padding="5dp">
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginVertical="10dp"
+        android:text="Magnus Lavy"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toStartOf="@+id/profile_image"
-            android:text="Magnus Lavy"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+    <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:text="Edit Profile"
+        android:textAllCaps="false"/>
 
-        <TextView
-            android:id="@+id/profile_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_name"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/profile_image"
-            android:text="ID: XXXX-XX" />
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/ic_launcher"/>
-
-        <Button
-            android:id="@+id/btn_editProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/profile_image"
-            android:backgroundTint="@color/white"
-            android:elevation="5dp"
-            android:text="Edit Profile"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            app:cornerRadius="15dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-    </RelativeLayout>
+    <Button
+        android:id="@+id/btnLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:textAllCaps="false"
+        app:cornerRadius="15dp"
+        android:layout_margin="16dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/orange"
+        android:elevation="5dp"
+        android:text="Logout" />
 
 </LinearLayout>

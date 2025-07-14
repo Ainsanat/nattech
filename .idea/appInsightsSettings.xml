@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.nattech" />
-                  <option name="mobileSdkAppId" value="1:86251133947:android:0c6c542a78f1ac50fc495e" />
-                  <option name="projectId" value="nattech-d7045" />
-                  <option name="projectNumber" value="86251133947" />
+                  <option name="appId" value="com.example.azimuth" />
+                  <option name="mobileSdkAppId" value="1:738954105744:android:300a468826e07ead049915" />
+                  <option name="projectId" value="azimuth-application" />
+                  <option name="projectNumber" value="738954105744" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
