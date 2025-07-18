@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,10 +16,10 @@
         android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_pic"
+            android:id="@+id/user_photo"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/man" />
+            android:background="@drawable/profile_signup" />
 
         <TextView
             android:id="@+id/user_name"
@@ -26,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:text="Display Username"
-            android:layout_toEndOf="@+id/user_pic"
+            android:layout_toEndOf="@+id/user_photo"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_name"
             android:layout_marginStart="20dp"
-            android:layout_toEndOf="@+id/user_pic"
+            android:layout_toEndOf="@+id/user_photo"
             android:text="Date"
             android:textSize="15sp" />
     </RelativeLayout>

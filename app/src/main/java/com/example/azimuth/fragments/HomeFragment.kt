@@ -1,11 +1,15 @@
 package com.example.azimuth.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.Toast
@@ -13,7 +17,9 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.azimuth.GridAdapter
 import com.example.azimuth.GridViewModel
+import com.example.azimuth.MainActivity
 import com.example.azimuth.R
+import com.example.azimuth.SignInActivity
 import com.example.azimuth.User
 import com.example.azimuth.databinding.FragmentHomeBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -31,7 +37,19 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import androidx.core.net.toUri
+import com.bumptech.glide.Glide
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import kotlin.jvm.Throws
 
+@Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -44,6 +62,11 @@ class HomeFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var mapFragment: SupportMapFragment
     private val permissionCode = 101
+
+    override fun onStart() {
+        super.onStart()
+        getCurrentUser()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,11 +83,11 @@ class HomeFragment : Fragment() {
 //        fetchDataUser()
 //        updateUserProfile()
 
-//        val timeStamp = SimpleDateFormat(
-//            "EEEE MMMM dd, yyyy",
-//            Locale.ENGLISH
-//        ).format(Calendar.getInstance().time)
-//        binding.curDate.text = timeStamp
+        val timeStamp = SimpleDateFormat(
+            "EEEE MMMM dd, yyyy",
+            Locale.ENGLISH
+        ).format(Calendar.getInstance().time)
+        binding.curDate.text = timeStamp
 
         courseGrid = binding.gridv
         courseList = ArrayList()
@@ -83,15 +106,23 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+
     private fun getCurrentUser() {
         val user = Firebase.auth.currentUser
-        user?.let {
-            val displayName = it.displayName
-            val email = it.email
 
-            binding.userName.text = displayName.toString()
-            binding.curDate.text = email.toString()
+        if (user != null) {
+            user.let {
+                binding.userName.text = it.displayName
+//                val displayPhoto = it.photoUrl.toString().toUri()
+//                Glide.with(requireContext()).load(displayPhoto).into(binding.userPhoto)
+//                Toast.makeText(context, "$displayPhoto", Toast.LENGTH_SHORT).show()
+            }
+
+        } else {
+            val intent = Intent(context, SignInActivity::class.java)
+            startActivity(intent)
         }
+
     }
 
     private fun getCurrentLocationUser() {
@@ -119,10 +150,12 @@ class HomeFragment : Fragment() {
 //                    Toast.LENGTH_SHORT
 //                ).show()
 
-                mapFragment = childFragmentManager.findFragmentById(R.id.currentLocationMaps) as SupportMapFragment
+                mapFragment =
+                    childFragmentManager.findFragmentById(R.id.currentLocationMaps) as SupportMapFragment
                 mapFragment.getMapAsync(OnMapReadyCallback {
                     val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
-                    val markerOptions = MarkerOptions().position(latLng).title("Your current location")
+                    val markerOptions =
+                        MarkerOptions().position(latLng).title("Your current location")
                     it.animateCamera(CameraUpdateFactory.newLatLng(latLng))
                     it.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
                     it.addMarker(markerOptions)
@@ -130,6 +163,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
@@ -204,5 +238,38 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun fileFromContentUri(context: Context, contentUri: Uri): File {
+        val fileExtension = getFileExtension(context, contentUri)
+        val fileName = "temporary_file" + if (fileExtension != null) ".$fileExtension" else ""
+
+        val tempFile = File(context.cacheDir, fileName)
+        tempFile.createNewFile()
+
+        try {
+            val outputStream = FileOutputStream(tempFile)
+            val inputStream = context.contentResolver.openInputStream(contentUri)
+            inputStream?.let {
+                copy(inputStream, outputStream)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return tempFile
+    }
+
+    private fun getFileExtension(context: Context, uri: Uri): String? {
+        val fileType: String? = context.contentResolver.getType(uri)
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType)
+    }
+
+    @Throws(IOException::class)
+    private fun copy(source: InputStream, target: OutputStream) {
+        val buf = ByteArray(8192)
+        var length: Int
+        while (source.read(buf).also { length = it } > 0) {
+            target.write(buf, 0, length)
+        }
     }
 }
