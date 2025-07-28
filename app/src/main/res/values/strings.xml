@@ -31,4 +31,10 @@
     <string name="login_failed">"Login failed"</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+
+    <string name="item_menu_1">Home</string>
+    <string name="item_menu_2">Device</string>
+    <string name="item_menu_3">Notification</string>
+    <string name="item_menu_4">Profile</string>
+
 </resources>

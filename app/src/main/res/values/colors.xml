@@ -13,6 +13,7 @@
     <color name="light_gray">#b5c2cb</color>
     <color name="gray">#7e7e7e</color>
     <color name="green">#008000</color>
+    <color name="dark_navy_blue">#0B0B45</color>
     <color name="colorTransparent">#00ffffff</color>
 
 </resources>

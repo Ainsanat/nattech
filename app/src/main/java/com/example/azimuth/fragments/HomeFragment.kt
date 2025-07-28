@@ -92,9 +92,9 @@ class HomeFragment : Fragment() {
         courseGrid = binding.gridv
         courseList = ArrayList()
 
-        courseList = courseList + GridViewModel("Battery", "78%", R.drawable.battery_icon)
-        courseList = courseList + GridViewModel("Control Box", "100%", R.drawable.energy)
-        courseList = courseList + GridViewModel("Level of Rotary", "BASE", R.drawable.setting)
+        courseList = courseList + GridViewModel("Battery", "78%", R.drawable.battery_status)
+        courseList = courseList + GridViewModel("Control Box", "100%", R.drawable.chart_status)
+        courseList = courseList + GridViewModel("Level of Rotary", "BASE", R.drawable.device_status)
 
         val courseAdapter = context?.let { GridAdapter(courseList = courseList, it) }
         courseGrid.adapter = courseAdapter
@@ -113,8 +113,9 @@ class HomeFragment : Fragment() {
         if (user != null) {
             user.let {
                 binding.userName.text = it.displayName
+//                binding.userPhoto.setImageURI(it.photoUrl)
 //                val displayPhoto = it.photoUrl.toString().toUri()
-//                Glide.with(requireContext()).load(displayPhoto).into(binding.userPhoto)
+                Glide.with(requireContext()).load(it.photoUrl).into(binding.userPhoto)
 //                Toast.makeText(context, "$displayPhoto", Toast.LENGTH_SHORT).show()
             }
 
@@ -180,60 +181,60 @@ class HomeFragment : Fragment() {
     }
 
     //test fetch user data specific person
-    private fun fetchDataUser() {
+//    private fun fetchDataUser() {
+//
+//        databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+//        databaseRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (snapshot.exists()) {
+//                    for (dataSnapshot in snapshot.children) {
+//                        val person = dataSnapshot.getValue(User::class.java)
+//                        binding.userName.text = (person?.name ?: "Username")
+//                        binding.curDate.text = (person?.bio ?: "Bio")
+//                        Toast.makeText(
+//                            context,
+//                            "Hell $person?.name",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Toast.makeText(
+//                    context,
+//                    "Failed to retrieve data: ${error.message}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        })
+//    }
 
-        databaseRef = FirebaseDatabase.getInstance().getReference("Users")
-        databaseRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (dataSnapshot in snapshot.children) {
-                        val person = dataSnapshot.getValue(User::class.java)
-                        binding.userName.text = (person?.name ?: "Username")
-                        binding.curDate.text = (person?.bio ?: "Bio")
-                        Toast.makeText(
-                            context,
-                            "Hell $person?.name",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    context,
-                    "Failed to retrieve data: ${error.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
-    private fun updateUserProfile() {
-        databaseRef = FirebaseDatabase.getInstance().getReference("Users")
-        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (dataSnapshot in snapshot.children) {
-                    val person = dataSnapshot.getValue(User::class.java)
-                    person?.let {
-                        binding.userName.text = "${it.name}"
-                        binding.curDate.text = "${it.bio}"
-                        Toast.makeText(context, "Hi ${it.name}!", Toast.LENGTH_SHORT).show()
-                    }
-                    break
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    context,
-                    "Failed to retrieve data: ${error.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-
-    }
+//    private fun updateUserProfile() {
+//        databaseRef = FirebaseDatabase.getInstance().getReference("Users")
+//        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                for (dataSnapshot in snapshot.children) {
+//                    val person = dataSnapshot.getValue(User::class.java)
+//                    person?.let {
+//                        binding.userName.text = "${it.name}"
+//                        binding.curDate.text = "${it.bio}"
+//                        Toast.makeText(context, "Hi ${it.name}!", Toast.LENGTH_SHORT).show()
+//                    }
+//                    break
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Toast.makeText(
+//                    context,
+//                    "Failed to retrieve data: ${error.message}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        })
+//
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,13 +1,12 @@
 package com.example.azimuth
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.azimuth.databinding.ActivityUpdateProfileBinding
@@ -16,17 +15,12 @@ import com.google.firebase.auth.auth
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import kotlin.jvm.Throws
 import androidx.core.net.toUri
+import com.google.firebase.storage.storage
 
 class UpdateProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateProfileBinding
-    private lateinit var database: DatabaseReference
+    private lateinit var databaseRef: DatabaseReference
     private lateinit var uri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,64 +28,75 @@ class UpdateProfileActivity : AppCompatActivity() {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database = FirebaseDatabase.getInstance().getReference("Users")
+        databaseRef = FirebaseDatabase.getInstance().getReference("Users")
 
-        val resultContact = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            val galleryUri = it
-            if (galleryUri != null) {
-                uri = galleryUri
-                binding.imgEditProfile.setImageURI(galleryUri)
-                Toast.makeText(this, "$galleryUri", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        binding.chooseImage.setOnClickListener {
-            resultContact.launch("image/*")
-        }
-        binding.btnUpdateProfile.setOnClickListener {
-//            updateDataUsers()
-            updateProfile()
-        }
-    }
-
-    private fun updateProfile() {
-        val user = Firebase.auth.currentUser
-        val name = binding.edtProfileName.text.toString()
-        val uriString = uri.toString()
-        if (name.isEmpty()) binding.edtProfileName.error = "Please fill your name!"
-        val profileUpdates = userProfileChangeRequest {
-            displayName = name
-            photoUri = uriString.toUri()
-
-        }
-        user!!.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "User profile updated.")
+        val pickMedia =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { Uri ->
+                if (Uri != null) {
+                    uri = Uri
+                    binding.imgEditProfile.setImageURI(Uri)
+                } else {
+//
                 }
             }
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+
+        binding.pickImage.setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+        binding.btnUpdateProfile.setOnClickListener {
+            uploadImageToFirebaseStorage(uri)
+        }
     }
 
-//    private fun updateDataUsers() {
-//        val name = binding.edtProfileName.text.toString()
-//        val bio = binding.edtProfileBio.text.toString()
-//        if (name.isEmpty()) binding.edtProfileName.error = "Please write your name!"
-////        val userId = database.push().key!!
-//        val uid = Firebase.auth.currentUser?.uid.toString()
-//        val user = User(uid, name, bio)
-//
-//        database.child(uid).setValue(user)
-//            .addOnCompleteListener {
-//                Toast.makeText(this, "User's data updated Successful!", Toast.LENGTH_SHORT).show()
-//                val intent = Intent(this, MainActivity::class.java)
-//                startActivity(intent)
-//            }.addOnFailureListener {
-////                Toast.makeText(this, "error ${it.message}", Toast.LENGTH_SHORT).show()
-//                Toast.makeText(this, "Failed to update user's profile.", Toast.LENGTH_SHORT).show()
-//            }
-//
-//    }
+
+    private fun uploadImageToFirebaseStorage(imageUri: Uri) {
+        val userId = Firebase.auth.currentUser?.uid
+        if (userId != null) {
+            val storageRef = Firebase.storage.reference.child("profile_pictures/$userId.jpg")
+            storageRef.putFile(imageUri)
+                .addOnSuccessListener {
+                    storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                        // Update the user's photoUrl with this downloadUri
+                        updateUserPhotoUrl(downloadUri)
+                    }
+                }
+                .addOnFailureListener {
+                    // Handle upload failure
+                }
+        }
+    }
+
+    private fun updateUserPhotoUrl(photoDownloadUri: Uri) {
+        val user = Firebase.auth.currentUser
+        val name = binding.edtProfileName.text.toString()
+        if (name.isEmpty()) binding.edtProfileName.error = "Please fill your name"
+
+        val newUser = User(null, null, null)
+        databaseRef.child(user?.uid.toString()).setValue(newUser)
+            .addOnCompleteListener {
+                Toast.makeText(this, "Add new user successful.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+
+        if (user != null) {
+            val profileUpdates = userProfileChangeRequest {
+                displayName = name
+                photoUri = photoDownloadUri
+            }
+            user.updateProfile(profileUpdates)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // User profile updated successfully
+                        Log.d(TAG, "User profile updated")
+                    } else {
+                        // Handle profile update failure
+                    }
+                }
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
 }

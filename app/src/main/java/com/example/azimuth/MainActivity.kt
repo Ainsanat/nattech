@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import com.example.azimuth.databinding.ActivityMainBinding
 import com.example.azimuth.fragments.*
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -16,20 +15,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val homeFragment = HomeFragment()
-        val chartFragment = ChartFragment()
+        val deviceFragment = DeviceFragment()
 //        val controlFragment = ControlFragment()
         val notificationFragment = NotificationFragment()
         val profileFragment = ProfileFragment()
 
         makeCurrentFragment(homeFragment)
 
-        binding.bottomNavigation.setOnItemSelectedListener{
-            when (it.itemId){
+        binding.bottomNavigation.setOnItemSelectedListener {
+            when (it.itemId) {
                 R.id.home -> makeCurrentFragment(homeFragment)
-                R.id.chart -> makeCurrentFragment(chartFragment)
+                R.id.device -> makeCurrentFragment(deviceFragment)
 //                R.id.control -> makeCurrentFragment(controlFragment)
-                R.id.notification -> makeCurrentFragment(notificationFragment)
+                R.id.notify -> makeCurrentFragment(notificationFragment)
                 R.id.profile -> makeCurrentFragment(profileFragment)
 
             }
@@ -38,9 +38,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply{
+        supportFragmentManager.beginTransaction().apply {
             replace(R.id.container, fragment)
             commit()
-    }
-
+        }
 }

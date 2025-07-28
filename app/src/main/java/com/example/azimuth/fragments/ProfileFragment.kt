@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
             }
         }
         binding.btnEditProfile.setOnClickListener {
-            showDialogEditProfile()
+//            showDialogEditProfile()
         }
 
         return binding.root
@@ -62,45 +62,45 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 
-    private fun showDialogEditProfile(){
-        val view = layoutInflater.inflate(R.layout.dialog_edit_profile, null)
-//        val imageUser = view.findViewById<ImageView>(R.id.)
-        val displayName = view.findViewById<EditText>(R.id.edtDisplayName)
-        val bioUser = view.findViewById<EditText>(R.id.edtBioProfile)
-
-        val customViewDialog = CustomViewDialog()
-        customViewDialog.Builder(context).apply{
-            setTitle("Edit Your Profile")
-            dialogWithTwoButtons()
-            addCustomView(view)
-            onButtonClick {
-                if (displayName != null && bioUser != null){
-                    val name = displayName.text.toString()
-                    val bio = bioUser.text.toString()
-                    saveUserProfile(name, bio)
-                }
-                dismiss()
-            }
-            show()
-        }
-
-    }
-    private fun saveUserProfile(name: String, bio: String){
-        auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser?.uid
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-
-        val user = User(name, bio)
-        if (uid != null){
-            databaseReference.child(uid).setValue(user).addOnCompleteListener {
-                if (it.isSuccessful){
-//                    uploadProfilePic()
-                } else {
-                    Toast.makeText(context, "Failed to update profile", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
+//    private fun showDialogEditProfile(){
+//        val view = layoutInflater.inflate(R.layout.dialog_edit_profile, null)
+////        val imageUser = view.findViewById<ImageView>(R.id.)
+//        val displayName = view.findViewById<EditText>(R.id.edtDisplayName)
+//        val bioUser = view.findViewById<EditText>(R.id.edtBioProfile)
+//
+//        val customViewDialog = CustomViewDialog()
+//        customViewDialog.Builder(context).apply{
+//            setTitle("Edit Your Profile")
+//            dialogWithTwoButtons()
+//            addCustomView(view)
+//            onButtonClick {
+//                if (displayName != null && bioUser != null){
+//                    val name = displayName.text.toString()
+//                    val bio = bioUser.text.toString()
+//                    saveUserProfile(name, bio)
+//                }
+//                dismiss()
+//            }
+//            show()
+//        }
+//
+//    }
+//    private fun saveUserProfile(name: String, bio: String){
+//        auth = FirebaseAuth.getInstance()
+//        val uid = auth.currentUser?.uid
+//        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+//
+//        val user = User(name, bio)
+//        if (uid != null){
+//            databaseReference.child(uid).setValue(user).addOnCompleteListener {
+//                if (it.isSuccessful){
+////                    uploadProfilePic()
+//                } else {
+//                    Toast.makeText(context, "Failed to update profile", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//    }
 
     private fun uploadProfilePic() {
         val packageName = context?.packageName

@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/home"
-        android:title="Home"
-        android:icon="@drawable/home"/>
+        android:title="@string/item_menu_1"
+        android:icon="@drawable/home_menu"/>
     <item
-        android:id="@+id/chart"
-        android:title="Machine"
-        android:icon="@drawable/gamepad"/>
+        android:id="@+id/device"
+        android:title="@string/item_menu_2"
+        android:icon="@drawable/gamepad_menu"/>
 <!--    <item-->
 <!--        android:id="@+id/control"-->
 <!--        android:title="Controller"-->
 <!--        android:icon="@drawable/gamepad"/>-->
     <item
-        android:id="@+id/notification"
-        android:title="Notifications"
-        android:icon="@drawable/bell"/>
+        android:id="@+id/notify"
+        android:title="@string/item_menu_3"
+        android:icon="@drawable/notification_menu"/>
     <item
         android:id="@+id/profile"
-        android:title="Profile"
-        android:icon="@drawable/profile"/>
+        android:title="@string/item_menu_4"
+        android:icon="@drawable/profile_menu"/>
 </menu>
