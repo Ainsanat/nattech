@@ -47,7 +47,6 @@ class UpdateProfileActivity : AppCompatActivity() {
         }
     }
 
-
     private fun uploadImageToFirebaseStorage(imageUri: Uri) {
         val userId = Firebase.auth.currentUser?.uid
         if (userId != null) {
@@ -68,16 +67,8 @@ class UpdateProfileActivity : AppCompatActivity() {
     private fun updateUserPhotoUrl(photoDownloadUri: Uri) {
         val user = Firebase.auth.currentUser
         val name = binding.edtProfileName.text.toString()
+        val bio = binding.edtProfileBio.text.toString()
         if (name.isEmpty()) binding.edtProfileName.error = "Please fill your name"
-
-        val newUser = User(null, null, null)
-        databaseRef.child(user?.uid.toString()).setValue(newUser)
-            .addOnCompleteListener {
-                Toast.makeText(this, "Add new user successful.", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
 
         if (user != null) {
             val profileUpdates = userProfileChangeRequest {
@@ -96,6 +87,17 @@ class UpdateProfileActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+        /*Set profile database root*/
+        val userProfile = Profile(name, "", "", bio)
+        val newUser = User(userProfile, null, null)
+
+        databaseRef.child(user?.uid.toString()).setValue(newUser)
+            .addOnCompleteListener {
+                Toast.makeText(this, "Add new user successful.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
 }

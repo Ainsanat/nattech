@@ -13,9 +13,8 @@ data class Profile(
     var email: String? = null,
     var phone: String? = null,
     var bio: String? = null,
-    var image: String? = null
 ) {
-    constructor() : this("", "", "", "", "")
+    constructor() : this("", "", "", "")
 }
 
 data class Device(
@@ -28,7 +27,6 @@ data class Device(
 ) {
     constructor() : this("", "", "", "", "", "")
 }
-
 
 data class Location(
     var locationName: String? = null,

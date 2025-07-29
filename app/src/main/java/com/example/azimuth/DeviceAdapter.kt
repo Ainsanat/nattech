@@ -12,15 +12,17 @@ import com.sjapps.library.customdialog.CustomViewDialog
 import java.util.Calendar
 import java.util.Date
 import androidx.core.graphics.toColorInt
+import java.util.ArrayList
 
-class CardAdapter(private val data: Cursor) : RecyclerView.Adapter<CardViewHolder>() {
+class DeviceAdapter(private val device: ArrayList<Device>) : RecyclerView.Adapter<CardViewHolder>() {
 
-    private val customViewDialog = CustomViewDialog()
+//    private val customViewDialog = CustomViewDialog()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.cardview_item, parent, false)
-        val holder = CardViewHolder(v)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.cardview_item, parent, false)
+        val holder = CardViewHolder(view)
 
+        /*
         holder.imageTrash.setOnClickListener {
             customViewDialog.Builder(parent.context).apply {
                 setTitle("Delete this machine?")
@@ -35,17 +37,25 @@ class CardAdapter(private val data: Cursor) : RecyclerView.Adapter<CardViewHolde
                 show()
             }
         }
-//        holder.itemView.setOnClickListener {
-//            val intent = Intent(v.context, ControlFragment::class.java)
-//            v.context.startActivity(intent)
-//        }
 
+         */
         return holder
     }
 
+    override fun getItemCount(): Int {
+        return device.size
+    }
+
+    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+        val currentItem = device[position]
+        holder.textName.text = currentItem.name
+        holder.textID.text = currentItem.clientID
+    }
+
+    /*
     private fun deleteItem(position: Int, context: Context) {
-        data.moveToPosition(position)
-        val id = data.getInt(0)
+        device.moveToPosition(position)
+        val id = device.getInt(0)
         val sqliteHelper = SQLiteHelper.getInstance(context)
         val db = sqliteHelper.writableDatabase
         val sql = "DELETE FROM machine WHERE _id = $id"
@@ -57,15 +67,15 @@ class CardAdapter(private val data: Cursor) : RecyclerView.Adapter<CardViewHolde
     }
 
     override fun getItemCount(): Int {
-        return data.count
+        return device.count
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        data.moveToPosition(position)
+        device.moveToPosition(position)
 
-        holder.textName.text = data.getString(1)
+        holder.textName.text = device.getString(1)
 
-        val time = data.getLong(4)
+        val time = device.getLong(4)
         val calendar = Calendar.getInstance()
         calendar.time = Date(time)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
@@ -76,7 +86,7 @@ class CardAdapter(private val data: Cursor) : RecyclerView.Adapter<CardViewHolde
         val month = getMonthName(calendar.get(Calendar.MONTH))
 //        val year = calendar.get(Calendar.YEAR) + 543
         val year = calendar.get(Calendar.YEAR)
-        holder.textMonthYear.text = "$month $year"
+        holder.textID.text = "$month $year"
 
         holder.itemView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -97,4 +107,6 @@ class CardAdapter(private val data: Cursor) : RecyclerView.Adapter<CardViewHolde
 
         return if (month in 0..11) m[month] else null
     }
+
+     */
 }

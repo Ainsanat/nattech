@@ -15,11 +15,14 @@ import com.example.azimuth.R
 import com.example.azimuth.databinding.FragmentDeviceBinding
 import com.sjapps.library.customdialog.CustomViewDialog
 import androidx.core.graphics.toColorInt
+import com.example.azimuth.DeviceAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-
+import com.google.firebase.database.ValueEventListener
 
 class DeviceFragment : Fragment() {
     private var _binding: FragmentDeviceBinding? = null
@@ -34,6 +37,7 @@ class DeviceFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var deviceInfo: Device
+    private lateinit var deviceList: ArrayList<Device>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +47,20 @@ class DeviceFragment : Fragment() {
 
         val user = Firebase.auth.currentUser?.uid.toString()
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user)
+        deviceList = arrayListOf()
+        fetchDevices()
         /*
                 mSQLiteHelper = SQLiteHelper.getInstance(context)
                 mSQLiteDatabase = mSQLiteHelper.writableDatabase
 
          */
+        /*
         mRecyclerView = binding.deviceList
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         val itemDecor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         mRecyclerView.addItemDecoration(itemDecor)
+
+         */
 //        readDatabaseToRecyclerview()
 
 //        binding.btnAddMachine.setOnClickListener() {
@@ -60,8 +69,33 @@ class DeviceFragment : Fragment() {
         binding.btnAddDevice.setOnClickListener {
             addDevice()
         }
+        binding.deviceList.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+        }
 
         return binding.root
+    }
+
+    private fun fetchDevices() {
+        databaseReference.child("device").addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                deviceList.clear()
+                if (snapshot.exists()){
+                    for (deviceSnap in snapshot.children){
+                        val devices = deviceSnap.getValue(Device::class.java)
+                        deviceList.add(devices!!)
+                    }
+                }
+                val rAdapter = DeviceAdapter(deviceList)
+                binding.deviceList.adapter = rAdapter
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "ERROR: $error", Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     private fun addDevice() {

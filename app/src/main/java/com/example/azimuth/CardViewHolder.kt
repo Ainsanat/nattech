@@ -6,8 +6,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class CardViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    var textName = view.findViewById<TextView>(R.id.tv_name_machine)
-    var textMonthYear = view.findViewById<TextView>(R.id.tv_month_year)
-    var textDate = view.findViewById<TextView>(R.id.tv_date)
-    var imageTrash = view.findViewById<ImageView>(R.id.imgTrash)
+    var textName: TextView = view.findViewById(R.id.tv_name_device)
+    var textID: TextView = view.findViewById(R.id.deviceID)
 }

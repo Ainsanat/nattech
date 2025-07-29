@@ -26,15 +26,16 @@
         <Button
             android:id="@+id/btn_add_device"
             android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:backgroundTint="@color/orange"
+            android:layout_marginHorizontal="10dp"
             android:text="Add"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:cornerRadius="50dp" />
+            app:cornerRadius="20dp" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

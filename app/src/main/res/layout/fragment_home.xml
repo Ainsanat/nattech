@@ -55,22 +55,13 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"/>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="Status of device"
-        android:textSize="20sp" />
-
     <GridView
         android:id="@+id/gridv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:horizontalSpacing="10dp"
         android:numColumns="2"
-        android:layout_margin="5dp"
-        android:padding="5dp"
+        android:layout_marginVertical="16dp"
         android:verticalSpacing="10dp" />
 
 </LinearLayout>

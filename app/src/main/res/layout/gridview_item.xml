@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:layout_margin="5dp"
+    android:padding="6dp"
     app:cardCornerRadius="15dp"
     app:cardElevation="5dp"
     app:cardPreventCornerOverlap="true">
@@ -20,7 +21,8 @@
             android:layout_margin="5dp"
             android:padding="5dp"
             android:src="@mipmap/ic_launcher"
-            app:tint="@color/orange" />
+            app:tint="@color/orange"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/textv_indicator"
