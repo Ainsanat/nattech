@@ -1,15 +1,12 @@
 package com.example.azimuth.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.net.Uri
 import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.Toast
@@ -17,37 +14,22 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.azimuth.GridAdapter
 import com.example.azimuth.GridViewModel
-import com.example.azimuth.MainActivity
 import com.example.azimuth.R
 import com.example.azimuth.SignInActivity
-import com.example.azimuth.User
 import com.example.azimuth.databinding.FragmentHomeBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import androidx.core.net.toUri
 import com.bumptech.glide.Glide
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import kotlin.jvm.Throws
 
 @Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
@@ -153,14 +135,14 @@ class HomeFragment : Fragment() {
 
                 mapFragment =
                     childFragmentManager.findFragmentById(R.id.currentLocationMaps) as SupportMapFragment
-                mapFragment.getMapAsync(OnMapReadyCallback {
+                mapFragment.getMapAsync {
                     val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
                     val markerOptions =
                         MarkerOptions().position(latLng).title("Your current location")
                     it.animateCamera(CameraUpdateFactory.newLatLng(latLng))
                     it.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
                     it.addMarker(markerOptions)
-                })
+                }
             }
         }
     }
@@ -241,36 +223,4 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun fileFromContentUri(context: Context, contentUri: Uri): File {
-        val fileExtension = getFileExtension(context, contentUri)
-        val fileName = "temporary_file" + if (fileExtension != null) ".$fileExtension" else ""
-
-        val tempFile = File(context.cacheDir, fileName)
-        tempFile.createNewFile()
-
-        try {
-            val outputStream = FileOutputStream(tempFile)
-            val inputStream = context.contentResolver.openInputStream(contentUri)
-            inputStream?.let {
-                copy(inputStream, outputStream)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return tempFile
-    }
-
-    private fun getFileExtension(context: Context, uri: Uri): String? {
-        val fileType: String? = context.contentResolver.getType(uri)
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType)
-    }
-
-    @Throws(IOException::class)
-    private fun copy(source: InputStream, target: OutputStream) {
-        val buf = ByteArray(8192)
-        var length: Int
-        while (source.read(buf).also { length = it } > 0) {
-            target.write(buf, 0, length)
-        }
-    }
 }

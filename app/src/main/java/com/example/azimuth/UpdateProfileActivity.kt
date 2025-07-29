@@ -15,7 +15,6 @@ import com.google.firebase.auth.auth
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import androidx.core.net.toUri
 import com.google.firebase.storage.storage
 
 class UpdateProfileActivity : AppCompatActivity() {
