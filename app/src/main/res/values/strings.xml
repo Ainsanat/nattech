@@ -12,11 +12,11 @@
     <string name="base_position">BASE LEVEL</string>
     <string name="first_position">FIRST LEVEL</string>
     <string name="second_position">SECOND LEVEL</string>
-    <string name="front_cam">CAM</string>
-    <string name="autonomous">AUTO</string>
-    <string name="rotary">ROTARY</string>
-    <string name="offline">OFFLINE</string>
-    <string name="online">ONLINE</string>
+    <string name="c3">CAMERA</string>
+    <string name="c2">AUTONOMOUS</string>
+    <string name="c4">ROTARY</string>
+    <string name="c5">OFFLINE</string>
+    <string name="c6">ONLINE</string>
     <string name="back">Back</string>
     <string name="add_position">Add</string>
     <string name="send_position">Send</string>
@@ -36,5 +36,15 @@
     <string name="item_menu_2">Device</string>
     <string name="item_menu_3">Notification</string>
     <string name="item_menu_4">Profile</string>
+    <string name="u1">Name\'s device</string>
+    <string name="u2">Client ID</string>
+    <string name="u3">Token</string>
+    <string name="u4">Streaming URI</string>
+    <string name="u5">About device...</string>
+    <string name="point_1">Position 1</string>
+    <string name="point_2">Point 2</string>
+    <string name="point_3">Point 3</string>
+    <string name="point_4">Point 4</string>
+    <string name="c1">Device\'s name</string>
 
 </resources>

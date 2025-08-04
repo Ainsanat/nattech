@@ -1,218 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Bright_Gray"
     android:keepScreenOn="true"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="40dp"
     tools:context=".fragments.ControlFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/txt_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:text="@string/c1"
+            android:textColor="@color/gray"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/c_setting"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@color/Bright_Gray"
+            android:contentDescription="Setting"
+            android:src="@drawable/device_settings"
+            tools:ignore="HardcodedText" />
+    </RelativeLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginVertical="10dp"
+        app:cardCornerRadius="15dp">
 
         <com.faizkhan.mjpegviewer.MjpegView
             android:id="@+id/streamCam"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray" />
-    </LinearLayout>
-    <!--    <VideoView-->
-    <!--        android:id="@+id/stream_cam"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="220dp" />-->
-    <!--    <WebView-->
-    <!--        android:id="@+id/stream"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="220dp"/>-->
+            android:background="@color/Bright_Gray" />
+    </androidx.cardview.widget.CardView>
 
-
-    <TextView
-        android:id="@+id/txt_controller"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_below="@+id/btnForward"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="center"
-        android:text="@string/controller"
-        android:textSize="20sp" />
-
-    <ImageButton
-        android:id="@+id/btnForward"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/streamCam"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_enable"
-        android:contentDescription="@string/forward"
-        android:padding="10dp"
-        android:rotation="-90"
-        android:scaleType="fitCenter"
-        android:src="@drawable/play"
-        app:tint="@color/orange"
-        tools:ignore="NotSibling" />
-
-    <ImageButton
-        android:id="@+id/btnTurnleft"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/btnForward"
-        android:layout_toStartOf="@id/txt_controller"
-        android:background="@drawable/button_enable"
-        android:contentDescription="@string/turnleft"
-        android:padding="10dp"
-        android:rotation="180"
-        android:scaleType="fitCenter"
-        android:src="@drawable/play"
-        app:tint="@color/orange" />
-
-    <ImageButton
-        android:id="@+id/btnTurnright"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/btnForward"
-        android:layout_toEndOf="@+id/txt_controller"
-        android:background="@drawable/button_enable"
-        android:contentDescription="@string/turnright"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/play"
-        app:tint="@color/orange" />
-
-    <ImageButton
-        android:id="@+id/btnBackward"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-
-        android:layout_below="@+id/txt_controller"
-        android:layout_centerInParent="true"
-        android:background="@drawable/button_enable"
-        android:contentDescription="@string/backward"
-        android:padding="10dp"
-        android:rotation="90"
-        android:scaleType="fitCenter"
-        android:src="@drawable/play"
-        app:tint="@color/orange" />
-
-    <TextView
-        android:id="@+id/txt_adjust"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnBackward"
-        android:layout_alignStart="@+id/segmented"
-        android:layout_marginTop="30dp"
-        android:text="@string/adjust"
-        android:textSize="15sp" />
-
-    <com.creageek.segmentedbutton.SegmentedButton
-        android:id="@+id/segmented"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_adjust"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        app:borderColor="@color/orange"
-        app:borderWidth="1dp"
-        app:cornerRadius="50dp"
-        app:segmentColor="@color/white"
-        app:segmentColorChecked="@color/orange"
-        app:segmentHeight="35dp"
-        app:spreadType="evenly"
-        app:textColor="@color/orange"
-        app:textSize="11sp">
+        android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/baseLevel"
+        <TextView
+            android:id="@+id/txt_controller"
             android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/btnForward"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="5dp"
+            android:gravity="center"
+            android:text="@string/controller"
+            android:textColor="@color/Bright_Gray"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/btnForward"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_enable"
+            android:contentDescription="@string/forward"
+            android:padding="10dp"
+            android:rotation="-90"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play"
+            app:tint="@color/Aerospace_International_Orange"
+            tools:ignore="NotSibling" />
+
+        <ImageButton
+            android:id="@+id/btnTurnleft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/btnForward"
+            android:layout_toStartOf="@id/txt_controller"
+            android:background="@drawable/button_enable"
+            android:contentDescription="@string/turnleft"
+            android:padding="10dp"
+            android:rotation="180"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play"
+            app:tint="@color/Aerospace_International_Orange" />
+
+        <ImageButton
+            android:id="@+id/btnTurnright"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/btnForward"
+            android:layout_toEndOf="@+id/txt_controller"
+            android:background="@drawable/button_enable"
+            android:contentDescription="@string/turnright"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play"
+            app:tint="@color/Aerospace_International_Orange" />
+
+        <ImageButton
+            android:id="@+id/btnBackward"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/txt_controller"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/button_enable"
+            android:contentDescription="@string/backward"
+            android:padding="10dp"
+            android:rotation="90"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play"
+            app:tint="@color/Aerospace_International_Orange" />
+
+        <com.creageek.segmentedbutton.SegmentedButton
+            android:id="@+id/segmented"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/base_position" />
+            android:layout_below="@+id/btnBackward"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="30dp"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            app:borderColor="@color/Aerospace_International_Orange"
+            app:borderWidth="1dp"
+            app:cornerRadius="50dp"
+            app:segmentColor="@color/Bright_Gray"
+            app:segmentColorChecked="@color/Aerospace_International_Orange"
+            app:segmentHeight="40dp"
+            app:spreadType="evenly"
+            app:textColor="@color/Aerospace_International_Orange"
+            app:textSize="12sp">
 
-        <RadioButton
-            android:id="@+id/firstLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/first_position" />
+            <RadioButton
+                android:id="@+id/baseLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/base_position" />
 
-        <RadioButton
-            android:id="@+id/secondLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/second_position" />
-    </com.creageek.segmentedbutton.SegmentedButton>
+            <RadioButton
+                android:id="@+id/firstLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/first_position" />
 
-    <Button
-        android:id="@+id/btnAuto"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/segmented"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_toStartOf="@+id/btnFrontCam"
-        android:drawableLeft="@drawable/steering"
-        android:drawableTint="@color/orange"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/autonomous"
-        android:textColor="@color/orange"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        app:cornerRadius="50dp" />
+            <RadioButton
+                android:id="@+id/secondLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/second_position" />
+        </com.creageek.segmentedbutton.SegmentedButton>
 
-    <Button
-        android:id="@+id/btnFrontCam"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/segmented"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/video_camera"
-        android:drawableTint="@color/orange"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/front_cam"
-        android:textColor="@color/orange"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        app:cornerRadius="50dp" />
+        <Button
+            android:id="@+id/cAutonomous"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/segmented"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/btnFrontCam"
+            android:backgroundTint="@color/Bright_Gray"
+            android:drawableTint="@color/Aerospace_International_Orange"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/c2"
+            android:textColor="@color/Aerospace_International_Orange"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:cornerRadius="50dp" />
 
-    <Button
-        android:id="@+id/btnOnOff"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/btnFrontCam"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/red"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/offline"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:cornerRadius="30dp" />
+        <Button
+            android:id="@+id/btnFrontCam"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/segmented"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/Bright_Gray"
+            android:drawableTint="@color/Aerospace_International_Orange"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/c3"
+            android:textColor="@color/Aerospace_International_Orange"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:cornerRadius="50dp" />
 
-    <Button
-        android:id="@+id/btnRotary"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/segmented"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/btnFrontCam"
-        android:backgroundTint="@color/button_bg"
-        android:drawableLeft="@drawable/rotary24px"
-        android:drawableTint="@color/button_txt_color"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/rotary"
-        android:textColor="@color/button_txt_color"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        app:cornerRadius="50dp"
-        app:iconPadding="-5dp" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btnRotary"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/segmented"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/btnFrontCam"
+            android:backgroundTint="@color/Bright_Gray"
+            android:drawableTint="@color/button_txt_color"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/c4"
+            android:textColor="@color/button_txt_color"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:cornerRadius="50dp"
+            app:iconPadding="-5dp" />
+
+        <Button
+            android:id="@+id/btnOnOff"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/btnFrontCam"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="20dp"
+            android:backgroundTint="@color/Bright_Gray"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/c5"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:cornerRadius="30dp" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

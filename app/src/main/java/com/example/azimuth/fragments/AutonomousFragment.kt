@@ -14,8 +14,8 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.azimuth.R
 import com.example.azimuth.api.APIService
-import com.example.azimuth.databinding.FragmentMapsBinding
 import com.example.azimuth.api.BasicAuthClient
+import com.example.azimuth.databinding.FragmentAutonomousBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -35,8 +35,8 @@ import retrofit2.Callback
 import java.lang.Double.parseDouble
 
 
-class MapsFragment : Fragment() {
-    private var _binding: FragmentMapsBinding? = null
+class AutonomousFragment : Fragment() {
+    private var _binding: FragmentAutonomousBinding? = null
     private val binding get() = _binding!!
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -49,7 +49,7 @@ class MapsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMapsBinding.inflate(inflater, container, false)
+        _binding = FragmentAutonomousBinding.inflate(inflater, container, false)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 

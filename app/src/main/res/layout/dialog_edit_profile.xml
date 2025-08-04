@@ -27,8 +27,8 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusBottomEnd="15dp"
-        app:boxStrokeColor="@color/orange"
-        app:hintTextColor="@color/orange">
+        app:boxStrokeColor="@color/Aerospace_International_Orange"
+        app:hintTextColor="@color/Aerospace_International_Orange">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtDisplayName"
@@ -52,8 +52,8 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusBottomEnd="15dp"
-        app:boxStrokeColor="@color/orange"
-        app:hintTextColor="@color/orange">
+        app:boxStrokeColor="@color/Aerospace_International_Orange"
+        app:hintTextColor="@color/Aerospace_International_Orange">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtBioProfile"

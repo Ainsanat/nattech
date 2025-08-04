@@ -30,8 +30,8 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:boxStrokeColor="@color/orange"
-        app:hintTextColor="@color/orange">
+        app:boxStrokeColor="@color/Aerospace_International_Orange"
+        app:hintTextColor="@color/Aerospace_International_Orange">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_clientID"
@@ -55,8 +55,8 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:boxStrokeColor="@color/orange"
-        app:hintTextColor="@color/orange"
+        app:boxStrokeColor="@color/Aerospace_International_Orange"
+        app:hintTextColor="@color/Aerospace_International_Orange"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -76,7 +76,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/orange"
+        android:backgroundTint="@color/Aerospace_International_Orange"
         android:text="Ready to GO"
         android:textAllCaps="false"
         app:cornerRadius="15dp" />

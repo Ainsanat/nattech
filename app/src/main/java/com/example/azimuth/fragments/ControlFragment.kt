@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.azimuth.R
 import com.example.azimuth.api.APIService
 import com.example.azimuth.api.BasicAuthClient
@@ -27,6 +29,8 @@ class ControlFragment : Fragment() {
     private var _binding: FragmentControlBinding? = null
     private val binding get() = _binding!!
 
+    private val args: ControlFragmentArgs by navArgs()
+
     @SuppressLint("ClickableViewAccessibility", "ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +38,17 @@ class ControlFragment : Fragment() {
     ): View {
         _binding = FragmentControlBinding.inflate(inflater, container, false)
 
+        binding.txtDeviceName.text = args.name
+
+        binding.cSetting.setOnClickListener {
+            findNavController().navigate(R.id.action_controlFragment_to_infoDeviceFragment)
+        }
+        binding.cAutonomous.setOnClickListener {
+            findNavController().navigate(R.id.action_controlFragment_to_autonomousFragment)
+        }
+
         binding.segmented{
             initialCheckedIndex = 0
-
-            // notifies when segment was checked
             onSegmentChecked { segment ->
                 when (segment.text){
                     "BASE LEVEL" -> leveling("base")
@@ -120,11 +131,7 @@ class ControlFragment : Fragment() {
                 Toast.makeText(context,"CAMERA OFF",Toast.LENGTH_SHORT).show()
             }
         }
-        binding.btnAuto.setOnClickListener {
-            //call map api
-            val mapsFragment = MapsFragment()
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.container, mapsFragment).commit()
-        }
+
         binding.btnRotary.setOnClickListener {
             binding.btnRotary.isSelected = !binding.btnRotary.isSelected
             if (binding.btnRotary.isSelected){

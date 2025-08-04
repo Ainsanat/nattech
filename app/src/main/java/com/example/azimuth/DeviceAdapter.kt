@@ -1,74 +1,68 @@
 package com.example.azimuth
 
-import android.content.Context
-import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.azimuth.fragments.ControlFragment
-import com.sjapps.library.customdialog.CustomViewDialog
-import java.util.Calendar
-import java.util.Date
-import androidx.core.graphics.toColorInt
+import com.example.azimuth.databinding.CardviewItemBinding
+import com.example.azimuth.fragments.DeviceFragmentDirections
 import java.util.ArrayList
 
-class DeviceAdapter(private val device: ArrayList<Device>) : RecyclerView.Adapter<CardViewHolder>() {
+class DeviceAdapter(private val deviceList: ArrayList<Device>) :
+    RecyclerView.Adapter<DeviceAdapter.ViewHolder>() {
+    class ViewHolder(val binding: CardviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-//    private val customViewDialog = CustomViewDialog()
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cardview_item, parent, false)
-        val holder = CardViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            CardviewItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+//        val view = LayoutInflater.from(parent.context).inflate(R.layout.cardview_item, parent, false)
+//        val holder = CardViewHolder(view)
+//
+//        return holder
+    }
 
-        /*
-        holder.imageTrash.setOnClickListener {
-            customViewDialog.Builder(parent.context).apply {
-                setTitle("Delete this machine?")
-                dialogWithTwoButtons()
-                setLeftButtonColor("#FF0000".toColorInt())
-                setRightButtonColor("#008000".toColorInt())
-                onButtonClick {
-                    val pos = holder.adapterPosition
-                    deleteItem(pos, parent.context)
-                    dismiss()
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val currentItem = deviceList[position]
+        holder.apply {
+            binding.apply {
+                tvNameDevice.text = currentItem.name
+                deviceID.text = currentItem.clientID
+                itemDevice.setOnClickListener {
+                    val action = DeviceFragmentDirections.actionDeviceToControlFragment(
+                        currentItem.name.toString(),
+                        currentItem.clientID.toString(),
+                        currentItem.token.toString()
+                    )
+                    it.findNavController().navigate(action)
                 }
-                show()
             }
         }
 
-         */
-        return holder
+
     }
 
     override fun getItemCount(): Int {
-        return device.size
+        return deviceList.size
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val currentItem = device[position]
-        holder.textName.text = currentItem.name
-        holder.textID.text = currentItem.clientID
-    }
+//    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+//        val currentItem = deviceList[position]
+//        holder.apply {
+//            textName.text = currentItem.name
+//            textID.text = currentItem.clientID
+//
+//        }
+//    }
 
     /*
-    private fun deleteItem(position: Int, context: Context) {
-        device.moveToPosition(position)
-        val id = device.getInt(0)
-        val sqliteHelper = SQLiteHelper.getInstance(context)
-        val db = sqliteHelper.writableDatabase
-        val sql = "DELETE FROM machine WHERE _id = $id"
-        db.execSQL(sql)
-
-//        val a = ChartFragment.newInstance("Adapter")
-//        a.readDatabaseToRecyclerview()
-
-    }
-
-    override fun getItemCount(): Int {
-        return device.count
-    }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         device.moveToPosition(position)

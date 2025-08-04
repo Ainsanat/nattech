@@ -33,7 +33,7 @@
         android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        app:civ_border_color="@color/light_gray"
+        app:civ_border_color="@color/Bright_Gray"
         app:civ_border_width="3dp"
         android:src="@drawable/profile_signup"/>
 
@@ -57,8 +57,8 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:boxStrokeColor="@color/orange"
-        app:hintTextColor="@color/orange">
+        app:boxStrokeColor="@color/Aerospace_International_Orange"
+        app:hintTextColor="@color/Aerospace_International_Orange">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtProfileName"
@@ -81,8 +81,8 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:boxStrokeColor="@color/orange"
-        app:hintTextColor="@color/orange">
+        app:boxStrokeColor="@color/Aerospace_International_Orange"
+        app:hintTextColor="@color/Aerospace_International_Orange">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtProfileBio"
@@ -99,7 +99,7 @@
         android:layout_height="55dp"
         android:layout_marginTop="50dp"
         android:layout_marginHorizontal="16dp"
-        android:backgroundTint="@color/orange"
+        android:backgroundTint="@color/Aerospace_International_Orange"
         android:text="done"
         app:cornerRadius="15dp" />
 

@@ -3,7 +3,7 @@
     <style name="Theme.azimuth" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/orange</item>
+        <item name="colorPrimaryVariant">@color/Aerospace_International_Orange</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -11,7 +11,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
-        <item name="android:navigationBarColor">@color/orange</item>
+        <item name="android:navigationBarColor">@color/Aerospace_International_Orange</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

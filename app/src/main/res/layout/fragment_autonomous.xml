@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.MapsFragment">
+    tools:context=".fragments.AutonomousFragment">
 
     <LinearLayout
         android:id="@+id/rootw"
@@ -14,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
@@ -24,17 +23,16 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/p1"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/point_1"
             android:textColorHint="@color/gray"
-            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxStrokeColor="@color/orange"
-            app:hintTextColor="@color/orange">
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxStrokeColor="@color/Aerospace_International_Orange"
+            app:hintTextColor="@color/Aerospace_International_Orange">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/position1"
@@ -48,17 +46,16 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/p2"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/point_2"
             android:textColorHint="@color/gray"
-            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxStrokeColor="@color/orange"
-            app:hintTextColor="@color/orange">
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxStrokeColor="@color/Aerospace_International_Orange"
+            app:hintTextColor="@color/Aerospace_International_Orange">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/position2"
@@ -72,17 +69,16 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/p3"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/point_3"
             android:textColorHint="@color/gray"
-            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxStrokeColor="@color/orange"
-            app:hintTextColor="@color/orange">
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxStrokeColor="@color/Aerospace_International_Orange"
+            app:hintTextColor="@color/Aerospace_International_Orange">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/position3"
@@ -91,21 +87,21 @@
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="Position 4"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/point_4"
             android:textColorHint="@color/gray"
-            app:boxCornerRadiusTopStart="15dp"
+            app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
             app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxStrokeColor="@color/orange"
-            app:hintTextColor="@color/orange">
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxStrokeColor="@color/Aerospace_International_Orange"
+            app:hintTextColor="@color/Aerospace_International_Orange">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/position4"
@@ -144,7 +140,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="15dp"
                 android:contentDescription="@string/add_position"
-                android:src="@drawable/targeting"
+                android:src="@drawable/position_pin"
                 android:visibility="visible"
                 app:backgroundTint="@color/white"
                 app:fabSize="normal" />
@@ -159,7 +155,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_toEndOf="@+id/add_fab"
                 android:contentDescription="@string/send_position"
-                android:src="@drawable/send"
+                android:src="@drawable/position_send"
                 android:visibility="visible"
                 app:backgroundTint="@color/white"
                 app:fabSize="normal" />

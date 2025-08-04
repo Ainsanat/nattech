@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.example.azimuth.fragments.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/device"
+        android:name="com.example.azimuth.fragments.DeviceFragment"
+        android:label="Device"
+        tools:layout="@layout/fragment_device" >
+        <action
+            android:id="@+id/action_device_to_controlFragment"
+            app:destination="@id/controlFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notify"
+        android:name="com.example.azimuth.fragments.NotificationFragment"
+        android:label="Notification"
+        tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.azimuth.fragments.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/controlFragment"
+        android:name="com.example.azimuth.fragments.ControlFragment"
+        android:label="fragment_control"
+        tools:layout="@layout/fragment_control" >
+        <action
+            android:id="@+id/action_controlFragment_to_autonomousFragment"
+            app:destination="@id/autonomousFragment" />
+        <action
+            android:id="@+id/action_controlFragment_to_infoDeviceFragment"
+            app:destination="@id/infoDeviceFragment" />
+        <action
+            android:id="@+id/action_controlFragment_to_device"
+            app:destination="@id/device" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="clientID"
+            app:argType="string" />
+        <argument android:name="token"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/autonomousFragment"
+        android:name="com.example.azimuth.fragments.AutonomousFragment"
+        android:label="fragment_autonomous"
+        tools:layout="@layout/fragment_autonomous" >
+        <action
+            android:id="@+id/action_autonomousFragment_to_controlFragment"
+            app:destination="@id/controlFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoDeviceFragment"
+        android:name="com.example.azimuth.InfoDeviceFragment"
+        android:label="fragment_info_device"
+        tools:layout="@layout/fragment_info_device" >
+        <action
+            android:id="@+id/action_infoDeviceFragment_to_controlFragment"
+            app:destination="@id/controlFragment" />
+    </fragment>
+</navigation>

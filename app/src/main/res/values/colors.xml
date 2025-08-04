@@ -7,13 +7,20 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="orange">#FF4B33</color>
+
     <color name="red">#FF0000</color>
     <color name="navy_blue">#000080</color>
-    <color name="light_gray">#b5c2cb</color>
+    <color name="Bright_Gray">#E4EEF4</color>
     <color name="gray">#7e7e7e</color>
     <color name="green">#008000</color>
-    <color name="dark_navy_blue">#0B0B45</color>
     <color name="colorTransparent">#00ffffff</color>
+    //New theme
+    <color name="Oxford_Blue">#002347</color>
+    <color name="Dark_Midnight_Blue">#003366</color>
+    <color name="Dark_Cerulean">#003F7D</color>
+    <color name="Light_Blue">#86bbd8</color>
+    <color name="Dark_Orange">#FF8E00</color>
+    <color name="Heat_Wave">#FD7702</color>
+    <color name="Aerospace_International_Orange">#FF5003</color>
 
 </resources>

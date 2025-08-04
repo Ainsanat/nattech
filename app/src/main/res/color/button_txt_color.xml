@@ -3,5 +3,5 @@
 
     <item android:color="@color/white" android:state_enabled="false"/>
     <item android:color="@color/white" android:state_selected="true"/>
-    <item android:color="@color/orange"/>
+    <item android:color="@color/Aerospace_International_Orange"/>
 </selector>
