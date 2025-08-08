@@ -46,5 +46,7 @@
     <string name="point_3">Point 3</string>
     <string name="point_4">Point 4</string>
     <string name="c1">Device\'s name</string>
+    <string name="u6">Update</string>
+    <string name="u7">Delete</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.toColorInt
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.azimuth.databinding.FragmentInfoDeviceBinding
@@ -13,6 +14,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.sjapps.library.customdialog.CustomViewDialog
 
 class InfoDeviceFragment : Fragment() {
     private var _binding: FragmentInfoDeviceBinding? = null
@@ -42,8 +44,32 @@ class InfoDeviceFragment : Fragment() {
             updateDataDevice()
             findNavController().navigate(R.id.action_infoDeviceFragment_to_device)
         }
+        binding.deleteDevice.setOnClickListener {
+            deleteDevice()
+
+        }
 
         return binding.root
+    }
+
+    private fun deleteDevice() {
+        val customViewDialog = CustomViewDialog()
+        customViewDialog.Builder(context).apply {
+            setTitle("DELETE ${args.name}")
+            dialogWithTwoButtons()
+            setLeftButtonColor("#FF0000".toColorInt())
+            setRightButtonColor("#008000".toColorInt())
+            onButtonClick {
+                databaseReference.child("device").child(args.id).removeValue().addOnSuccessListener {
+                    Toast.makeText(context, "Delete ${args.name} successful", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_infoDeviceFragment_to_device)
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Delete ${args.name} failed", Toast.LENGTH_SHORT).show()
+                }
+                dismiss()
+            }
+            show()
+        }
     }
 
 
