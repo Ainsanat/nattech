@@ -23,10 +23,6 @@ class DeviceAdapter(private val deviceList: ArrayList<Device>) :
                 false
             )
         )
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.cardview_item, parent, false)
-//        val holder = CardViewHolder(view)
-//
-//        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -34,14 +30,29 @@ class DeviceAdapter(private val deviceList: ArrayList<Device>) :
         holder.apply {
             binding.apply {
                 tvNameDevice.text = currentItem.name
-                deviceID.text = currentItem.clientID
+                deviceID.text = currentItem.id
                 itemDevice.setOnClickListener {
                     val action = DeviceFragmentDirections.actionDeviceToControlFragment(
+                        currentItem.id.toString(),
                         currentItem.name.toString(),
                         currentItem.clientID.toString(),
-                        currentItem.token.toString()
+                        currentItem.token.toString(),
+                        currentItem.streamingURI.toString(),
+                        currentItem.description.toString()
                     )
                     it.findNavController().navigate(action)
+                }
+                editDevice.setOnClickListener {
+                    val directionUpdateDevice =
+                        DeviceFragmentDirections.actionDeviceToInfoDeviceFragment(
+                            currentItem.id.toString(),
+                            currentItem.name.toString(),
+                            currentItem.clientID.toString(),
+                            currentItem.token.toString(),
+                            currentItem.streamingURI.toString(),
+                            currentItem.description.toString()
+                        )
+                    it.findNavController().navigate(directionUpdateDevice)
                 }
             }
         }
@@ -52,6 +63,7 @@ class DeviceAdapter(private val deviceList: ArrayList<Device>) :
     override fun getItemCount(): Int {
         return deviceList.size
     }
+
 
 //    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
 //        val currentItem = deviceList[position]

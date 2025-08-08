@@ -40,17 +40,25 @@ class ControlFragment : Fragment() {
 
         binding.txtDeviceName.text = args.name
 
-        binding.cSetting.setOnClickListener {
-            findNavController().navigate(R.id.action_controlFragment_to_infoDeviceFragment)
-        }
+//        binding.cSetting.setOnClickListener {
+//            val action = ControlFragmentDirections.actionControlFragmentToInfoDeviceFragment(
+//                args.id.toString(),
+//                args.name.toString(),
+//                args.clientID.toString(),
+//                args.token.toString(),
+//                args.streamingURI.toString(),
+//                args.description.toString()
+//            )
+//            findNavController().navigate(action)
+//        }
         binding.cAutonomous.setOnClickListener {
             findNavController().navigate(R.id.action_controlFragment_to_autonomousFragment)
         }
 
-        binding.segmented{
+        binding.segmented {
             initialCheckedIndex = 0
             onSegmentChecked { segment ->
-                when (segment.text){
+                when (segment.text) {
                     "BASE LEVEL" -> leveling("base")
                     "FIRST LEVEL" -> leveling("first")
                     "SECOND LEVEL" -> leveling("second")
@@ -73,6 +81,7 @@ class ControlFragment : Fragment() {
                     binding.btnForward.setBackgroundResource(R.drawable.button_press)
                     movement("forward")
                 }
+
                 MotionEvent.ACTION_UP -> {
                     binding.btnForward.setBackgroundResource(R.drawable.button_enable)
                     movement("stop")
@@ -86,6 +95,7 @@ class ControlFragment : Fragment() {
                     binding.btnBackward.setBackgroundResource(R.drawable.button_press)
                     movement("backward")
                 }
+
                 MotionEvent.ACTION_UP -> {
                     binding.btnBackward.setBackgroundResource(R.drawable.button_enable)
                     movement("stop")
@@ -99,6 +109,7 @@ class ControlFragment : Fragment() {
                     binding.btnTurnleft.setBackgroundResource(R.drawable.button_press)
                     movement("turnleft")
                 }
+
                 MotionEvent.ACTION_UP -> {
                     binding.btnTurnleft.setBackgroundResource(R.drawable.button_enable)
                     movement("stop")
@@ -113,6 +124,7 @@ class ControlFragment : Fragment() {
                     binding.btnTurnright.setBackgroundResource(R.drawable.button_press)
                     movement("turnright")
                 }
+
                 MotionEvent.ACTION_UP -> {
                     binding.btnTurnright.setBackgroundResource(R.drawable.button_enable)
                     movement("stop")
@@ -121,25 +133,25 @@ class ControlFragment : Fragment() {
             true
         }
         //edit to change color button
-        binding.btnFrontCam.setOnClickListener{
+        binding.btnFrontCam.setOnClickListener {
             binding.btnFrontCam.isSelected = !binding.btnFrontCam.isSelected
-            if (binding.btnFrontCam.isSelected){
+            if (binding.btnFrontCam.isSelected) {
                 videoStreaming()
-                Toast.makeText(context,"CAMERA ON",Toast.LENGTH_SHORT).show()
-            } else if (!binding.btnFrontCam.isSelected){
+                Toast.makeText(context, "CAMERA ON", Toast.LENGTH_SHORT).show()
+            } else if (!binding.btnFrontCam.isSelected) {
                 stopStreaming()
-                Toast.makeText(context,"CAMERA OFF",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "CAMERA OFF", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.btnRotary.setOnClickListener {
             binding.btnRotary.isSelected = !binding.btnRotary.isSelected
-            if (binding.btnRotary.isSelected){
+            if (binding.btnRotary.isSelected) {
                 shoveling("on")
-                Toast.makeText(context,"ON",Toast.LENGTH_SHORT).show()
-            } else if (!binding.btnRotary.isSelected){
+                Toast.makeText(context, "ON", Toast.LENGTH_SHORT).show()
+            } else if (!binding.btnRotary.isSelected) {
                 shoveling("off")
-                Toast.makeText(context,"OFF",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "OFF", Toast.LENGTH_SHORT).show()
             }
         }
         binding.btnOnOff.setOnClickListener {
@@ -161,6 +173,7 @@ class ControlFragment : Fragment() {
             startStream()
         }
     }
+
     private fun stopStreaming() {
         binding.streamCam.apply {
             isAdjustHeight = true
@@ -240,9 +253,9 @@ class ControlFragment : Fragment() {
         })
     }
 
-    private fun login(){
+    private fun login() {
         val call = BasicAuthClient<APIService>().create(APIService::class.java).login()
-        call.enqueue(object: Callback<Response> {
+        call.enqueue(object : Callback<Response> {
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                 val stringResponse = response.body()?.toString()
@@ -251,7 +264,12 @@ class ControlFragment : Fragment() {
                     println(stringResponse)
                     //view?.btn_on_off?.setBackgroundColor(ContextCompat.getColor(context!!, R.color.green))
                     //view?.btn_on_off?.text = "ON"
-                    binding.btnOnOff.setBackgroundColor(ContextCompat.getColor(context!!, R.color.green))
+                    binding.btnOnOff.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            R.color.green
+                        )
+                    )
                     binding.btnOnOff.text = "ON"
                 } else {
                     Log.e("API", "Login Error: ${response.code()} ${response.message()}")

@@ -18,6 +18,7 @@ data class Profile(
 }
 
 data class Device(
+    val id: String? = null,
     val name: String? = null,
     var clientID: String? = null,
     var token: String? = null,
@@ -25,7 +26,7 @@ data class Device(
     var streamingURI: String? = null,
     var description: String? = null
 ) {
-    constructor() : this("", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "")
 }
 
 data class Location(

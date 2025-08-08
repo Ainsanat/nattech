@@ -1,5 +1,6 @@
 package com.example.azimuth.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.azimuth.Device
 import com.example.azimuth.R
 import com.example.azimuth.databinding.FragmentDeviceBinding
@@ -29,7 +28,6 @@ class DeviceFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var deviceInfo: Device
     private lateinit var deviceList: ArrayList<Device>
 
     override fun onCreateView(
@@ -55,17 +53,20 @@ class DeviceFragment : Fragment() {
     }
 
     private fun fetchDevices() {
-        databaseReference.child("device").addValueEventListener(object: ValueEventListener{
+        databaseReference.child("device").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                deviceList.clear()
-                if (snapshot.exists()){
-                    for (deviceSnap in snapshot.children){
-                        val devices = deviceSnap.getValue(Device::class.java)
-                        deviceList.add(devices!!)
+                _binding?.let {
+                    deviceList.clear()
+                    if (snapshot.exists()) {
+                        for (deviceSnap in snapshot.children) {
+                            val devices = deviceSnap.getValue(Device::class.java)
+                            deviceList.add(devices!!)
+                        }
                     }
+                    val rAdapter = DeviceAdapter(deviceList)
+                    binding.deviceList.adapter = rAdapter
                 }
-                val rAdapter = DeviceAdapter(deviceList)
-                binding.deviceList.adapter = rAdapter
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -75,12 +76,13 @@ class DeviceFragment : Fragment() {
         })
     }
 
+    @SuppressLint("InflateParams")
     private fun addDevice() {
-
         val view = layoutInflater.inflate(R.layout.dialog_add_device, null)
         val name = view.findViewById<EditText>(R.id.device_name)
         val clientID = view.findViewById<EditText>(R.id._clientID)
         val token = view.findViewById<EditText>(R.id._token)
+//        val streaming = view.findViewById<EditText>(R.id._)
         val desc = view.findViewById<EditText>(R.id._description)
 
         val customViewDialog = CustomViewDialog()
@@ -91,8 +93,10 @@ class DeviceFragment : Fragment() {
             setLeftButtonColor("#FF0000".toColorInt())
             setRightButtonColor("#008000".toColorInt())
             onButtonClick {
-                if (name != null && clientID != null && token != null && desc != null) {
-                    deviceInfo = Device(
+                if (name != null && clientID != null && token != null) {
+                    val deviceID = databaseReference.push().key!!
+                    val deviceInfo = Device(
+                        deviceID,
                         name.text.toString(),
                         clientID.text.toString(),
                         token.text.toString(),
@@ -100,7 +104,13 @@ class DeviceFragment : Fragment() {
                         "",
                         desc.text.toString()
                     )
-                    insertDataToFirebase()
+                    databaseReference.child("device").child(deviceID)
+                        .setValue(deviceInfo).addOnCompleteListener {
+                            Toast.makeText(context, "New device added", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(context, "ERROR: ${it.message}", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                 }
                 dismiss()
             }
@@ -108,25 +118,9 @@ class DeviceFragment : Fragment() {
         }
     }
 
-    private fun insertDataToFirebase() {
-
-        val deviceID = databaseReference.push().key!!
-        val device = deviceInfo
-
-        databaseReference.child("device").child(deviceID)
-            .setValue(device).addOnCompleteListener {
-            Toast.makeText(context, "New device added", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener {
-            Toast.makeText(context, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun readFirebaseToRecyclerView() {
-        TODO("Not yet implemented")
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        /*--set t prevent memory leaks--*/
     }
 }

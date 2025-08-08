@@ -5,55 +5,61 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.example.azimuth.databinding.FragmentInfoDeviceBinding
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [InfoDeviceFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InfoDeviceFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentInfoDeviceBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var databaseReference: DatabaseReference
+    private val args: InfoDeviceFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_info_device, container, false)
+    ): View {
+        _binding = FragmentInfoDeviceBinding.inflate(inflater, container, false)
+
+        binding.apply {
+            updateNameDevice.setText(args.name)
+            updateClientDevice.setText(args.clientID)
+            updateTokenDevice.setText(args.token)
+            updateStreamingDevice.setText(args.streamingURI)
+            updateDescriptionDevice.setText(args.description)
+        }
+
+        val user = Firebase.auth.currentUser?.uid.toString()
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user)
+
+        binding.updateDevice.setOnClickListener {
+            updateDataDevice()
+            findNavController().navigate(R.id.action_infoDeviceFragment_to_device)
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment InfoDeviceFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InfoDeviceFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+
+    private fun updateDataDevice() {
+        val update = hashMapOf<String, Any>(
+            "name" to binding.updateNameDevice.text.toString(),
+            "description" to binding.updateDescriptionDevice.text.toString()
+        )
+        databaseReference.child("device").child(args.id).updateChildren(update)
+            .addOnCompleteListener {
+                Toast.makeText(context, "Update device successful", Toast.LENGTH_SHORT).show()
+
+            }.addOnFailureListener {
+                Toast.makeText(context, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+
 }

@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_device_to_controlFragment"
             app:destination="@id/controlFragment" />
+        <action
+            android:id="@+id/action_device_to_infoDeviceFragment"
+            app:destination="@id/infoDeviceFragment" />
     </fragment>
     <fragment
         android:id="@+id/notify"
@@ -38,18 +41,25 @@
             android:id="@+id/action_controlFragment_to_autonomousFragment"
             app:destination="@id/autonomousFragment" />
         <action
-            android:id="@+id/action_controlFragment_to_infoDeviceFragment"
-            app:destination="@id/infoDeviceFragment" />
-        <action
             android:id="@+id/action_controlFragment_to_device"
             app:destination="@id/device" />
+        <argument
+            android:name="id"
+            app:argType="string" />
         <argument
             android:name="name"
             app:argType="string" />
         <argument
             android:name="clientID"
             app:argType="string" />
-        <argument android:name="token"
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="streamingURI"
+            app:argType="string" />
+        <argument
+            android:name="description"
             app:argType="string" />
     </fragment>
     <fragment
@@ -66,8 +76,26 @@
         android:name="com.example.azimuth.InfoDeviceFragment"
         android:label="fragment_info_device"
         tools:layout="@layout/fragment_info_device" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="clientID"
+            app:argType="string" />
+        <argument
+            android:name="token"
+            app:argType="string" />
+        <argument
+            android:name="streamingURI"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
         <action
-            android:id="@+id/action_infoDeviceFragment_to_controlFragment"
-            app:destination="@id/controlFragment" />
+            android:id="@+id/action_infoDeviceFragment_to_device"
+            app:destination="@id/device" />
     </fragment>
 </navigation>
