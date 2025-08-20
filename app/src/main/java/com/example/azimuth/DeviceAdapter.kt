@@ -3,36 +3,50 @@ package com.example.azimuth
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.azimuth.databinding.CardviewItemBinding
 import com.example.azimuth.fragments.DeviceFragmentDirections
 import java.util.ArrayList
 
 class DeviceAdapter(private val deviceList: ArrayList<Device>) :
     RecyclerView.Adapter<DeviceAdapter.ViewHolder>() {
-    class ViewHolder(val binding: CardviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val deviceName: TextView = itemView.findViewById(R.id.tv_name_device)
+        val deviceID: TextView = itemView.findViewById(R.id.deviceID)
+        val deviceItem: CardView = itemView.findViewById(R.id.item_device)
+        val deviceEdit: ImageButton = itemView.findViewById(R.id.edit_device)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            CardviewItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.cardview_item, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = deviceList[position]
+        holder.deviceItem.startAnimation(AnimationUtils.loadAnimation(holder.deviceItem.context, R.anim.fall_down))
         holder.apply {
-            binding.apply {
-                tvNameDevice.text = currentItem.name
-                deviceID.text = currentItem.id
-                itemDevice.setOnClickListener {
-                    val action = DeviceFragmentDirections.actionDeviceToControlFragment(
+            deviceName.text = currentItem.name
+            deviceID.text = currentItem.id
+            deviceItem.setOnClickListener {
+                val action = DeviceFragmentDirections.actionDeviceToControlFragment(
+                    currentItem.id.toString(),
+                    currentItem.name.toString(),
+                    currentItem.clientID.toString(),
+                    currentItem.token.toString(),
+                    currentItem.streamingURI.toString()
+                )
+                it.findNavController().navigate(action)
+            }
+            deviceEdit.setOnClickListener {
+                val directionUpdateDevice =
+                    DeviceFragmentDirections.actionDeviceToInfoDeviceFragment(
                         currentItem.id.toString(),
                         currentItem.name.toString(),
                         currentItem.clientID.toString(),
@@ -40,39 +54,14 @@ class DeviceAdapter(private val deviceList: ArrayList<Device>) :
                         currentItem.streamingURI.toString(),
                         currentItem.description.toString()
                     )
-                    it.findNavController().navigate(action)
-                }
-                editDevice.setOnClickListener {
-                    val directionUpdateDevice =
-                        DeviceFragmentDirections.actionDeviceToInfoDeviceFragment(
-                            currentItem.id.toString(),
-                            currentItem.name.toString(),
-                            currentItem.clientID.toString(),
-                            currentItem.token.toString(),
-                            currentItem.streamingURI.toString(),
-                            currentItem.description.toString()
-                        )
-                    it.findNavController().navigate(directionUpdateDevice)
-                }
+                it.findNavController().navigate(directionUpdateDevice)
             }
         }
-
-
     }
 
     override fun getItemCount(): Int {
         return deviceList.size
     }
-
-
-//    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-//        val currentItem = deviceList[position]
-//        holder.apply {
-//            textName.text = currentItem.name
-//            textID.text = currentItem.clientID
-//
-//        }
-//    }
 
     /*
 

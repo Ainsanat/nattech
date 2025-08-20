@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="14dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    android:id="@+id/position_item">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:background="@color/Aerospace_International_Orange"/>
+        <TextView
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@color/Aerospace_International_Orange"/>
+        <TextView
+            android:id="@+id/position_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:text="POSITION"/>
+        <TextView
+            android:id="@+id/position_latlng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/position_number"
+            android:layout_centerHorizontal="true"
+            android:text="[Latitude, Longitude]"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

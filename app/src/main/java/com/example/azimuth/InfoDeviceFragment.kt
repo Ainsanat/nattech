@@ -72,7 +72,6 @@ class InfoDeviceFragment : Fragment() {
         }
     }
 
-
     private fun updateDataDevice() {
         val update = hashMapOf<String, Any>(
             "name" to binding.updateNameDevice.text.toString(),

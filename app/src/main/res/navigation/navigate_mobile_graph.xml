@@ -58,9 +58,9 @@
         <argument
             android:name="streamingURI"
             app:argType="string" />
-        <argument
-            android:name="description"
-            app:argType="string" />
+        <action
+            android:id="@+id/action_controlFragment_to_coordinateListFragment"
+            app:destination="@id/coordinateListFragment" />
     </fragment>
     <fragment
         android:id="@+id/autonomousFragment"
@@ -97,5 +97,14 @@
         <action
             android:id="@+id/action_infoDeviceFragment_to_device"
             app:destination="@id/device" />
+    </fragment>
+    <fragment
+        android:id="@+id/coordinateListFragment"
+        android:name="com.example.azimuth.CoordinateListFragment"
+        android:label="fragment_coordinate_list"
+        tools:layout="@layout/fragment_coordinate_list" >
+        <action
+            android:id="@+id/action_coordinateListFragment_to_controlFragment"
+            app:destination="@id/controlFragment" />
     </fragment>
 </navigation>

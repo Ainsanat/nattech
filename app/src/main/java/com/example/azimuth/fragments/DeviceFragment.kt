@@ -14,7 +14,11 @@ import com.example.azimuth.R
 import com.example.azimuth.databinding.FragmentDeviceBinding
 import com.sjapps.library.customdialog.CustomViewDialog
 import androidx.core.graphics.toColorInt
+import com.example.azimuth.Autonomous
 import com.example.azimuth.DeviceAdapter
+import com.example.azimuth.Manual
+import com.example.azimuth.Mode
+import com.example.azimuth.Status
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
@@ -95,13 +99,16 @@ class DeviceFragment : Fragment() {
             onButtonClick {
                 if (name != null && clientID != null && token != null) {
                     val deviceID = databaseReference.push().key!!
+                    val manual = Manual("","","")
+                    val auto = Autonomous("")
+                    val mode = Mode(manual,auto)
+                    val status = Status(mode,"","")
                     val deviceInfo = Device(
                         deviceID,
                         name.text.toString(),
                         clientID.text.toString(),
                         token.text.toString(),
-                        "",
-                        "",
+                        status,
                         desc.text.toString()
                     )
                     databaseReference.child("device").child(deviceID)

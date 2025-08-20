@@ -22,12 +22,29 @@ data class Device(
     val name: String? = null,
     var clientID: String? = null,
     var token: String? = null,
-    var status: String? = null,
+    var status: Status? = null,
     var streamingURI: String? = null,
     var description: String? = null
-) {
-    constructor() : this("", "", "", "", "", "", "")
+){
+    constructor() : this("","","","",null,"","")
 }
+data class Status(
+    val mode: Mode? = null,
+    val position: String? = null,
+    val battery: String? = null
+)
+data class Mode(
+    val manual: Manual? = null,
+    val autonomous: Autonomous? = null
+)
+data class Manual(
+    val movement: String? = null,
+    val adjustment: String? = null,
+    val rotary: String? = null
+)
+data class Autonomous(
+    val coordinate: String? = null
+)
 
 data class Location(
     var locationName: String? = null,

@@ -11,10 +11,10 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="15dp"
     app:cardElevation="5dp"
-    app:cardPreventCornerOverlap="true">
+    app:cardPreventCornerOverlap="true"
+    android:id="@+id/item_device">
 
     <RelativeLayout
-        android:id="@+id/item_device"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

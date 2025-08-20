@@ -8,16 +8,22 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.azimuth.Autonomous
+import com.example.azimuth.Manual
+import com.example.azimuth.Mode
 import com.example.azimuth.R
+import com.example.azimuth.Status
 import com.example.azimuth.api.APIService
 import com.example.azimuth.api.BasicAuthClient
 import com.example.azimuth.databinding.FragmentControlBinding
-import com.example.retrofit.api.*
 import com.faizkhan.mjpegviewer.MjpegView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -29,6 +35,7 @@ class ControlFragment : Fragment() {
     private var _binding: FragmentControlBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var databaseReference: DatabaseReference
     private val args: ControlFragmentArgs by navArgs()
 
     @SuppressLint("ClickableViewAccessibility", "ResourceAsColor")
@@ -38,19 +45,13 @@ class ControlFragment : Fragment() {
     ): View {
         _binding = FragmentControlBinding.inflate(inflater, container, false)
 
+        val user = Firebase.auth.currentUser?.uid.toString()
+
+        databaseReference =
+            FirebaseDatabase.getInstance().getReference("Users").child(user).child("device")
+                .child(args.id).child("status")
         binding.txtDeviceName.text = args.name
 
-//        binding.cSetting.setOnClickListener {
-//            val action = ControlFragmentDirections.actionControlFragmentToInfoDeviceFragment(
-//                args.id.toString(),
-//                args.name.toString(),
-//                args.clientID.toString(),
-//                args.token.toString(),
-//                args.streamingURI.toString(),
-//                args.description.toString()
-//            )
-//            findNavController().navigate(action)
-//        }
         binding.cAutonomous.setOnClickListener {
             findNavController().navigate(R.id.action_controlFragment_to_autonomousFragment)
         }
@@ -59,9 +60,9 @@ class ControlFragment : Fragment() {
             initialCheckedIndex = 0
             onSegmentChecked { segment ->
                 when (segment.text) {
-                    "BASE LEVEL" -> leveling("base")
-                    "FIRST LEVEL" -> leveling("first")
-                    "SECOND LEVEL" -> leveling("second")
+                    "BASE LEVEL" -> adjustment("base")
+                    "FIRST LEVEL" -> adjustment("first")
+                    "SECOND LEVEL" -> adjustment("second")
                 }
                 Log.d("creageek:segmented", "Segment ${segment.text} checked")
             }
@@ -107,7 +108,7 @@ class ControlFragment : Fragment() {
             when (p1!!.action) {
                 MotionEvent.ACTION_DOWN -> {
                     binding.btnTurnleft.setBackgroundResource(R.drawable.button_press)
-                    movement("turnleft")
+                    movement("left")
                 }
 
                 MotionEvent.ACTION_UP -> {
@@ -122,7 +123,7 @@ class ControlFragment : Fragment() {
             when (p1!!.action) {
                 MotionEvent.ACTION_DOWN -> {
                     binding.btnTurnright.setBackgroundResource(R.drawable.button_press)
-                    movement("turnright")
+                    movement("right")
                 }
 
                 MotionEvent.ACTION_UP -> {
@@ -132,7 +133,7 @@ class ControlFragment : Fragment() {
             }
             true
         }
-        //edit to change color button
+
         binding.btnFrontCam.setOnClickListener {
             binding.btnFrontCam.isSelected = !binding.btnFrontCam.isSelected
             if (binding.btnFrontCam.isSelected) {
@@ -147,18 +148,19 @@ class ControlFragment : Fragment() {
         binding.btnRotary.setOnClickListener {
             binding.btnRotary.isSelected = !binding.btnRotary.isSelected
             if (binding.btnRotary.isSelected) {
-                shoveling("on")
+                rotary("on")
+//                binding.btnRotary.setBackgroundColor(R.color.Aerospace_International_Orange)
                 Toast.makeText(context, "ON", Toast.LENGTH_SHORT).show()
             } else if (!binding.btnRotary.isSelected) {
-                shoveling("off")
+                rotary("off")
+//                binding.btnRotary.setBackgroundColor(R.color.Bright_Gray)
                 Toast.makeText(context, "OFF", Toast.LENGTH_SHORT).show()
             }
         }
         binding.btnOnOff.setOnClickListener {
-            login()
+
         }
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -192,116 +194,42 @@ class ControlFragment : Fragment() {
     }
 
     private fun movement(directions: String) {
-        val body: RequestBody = directions.toRequestBody("text/plain;charset=utf-8".toMediaType())
-        val call = BasicAuthClient<APIService>().create(APIService::class.java)
-        call.movement(body).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(
-                call: Call<ResponseBody>,
-                response: retrofit2.Response<ResponseBody>
-            ) {
-                if (response.isSuccessful) {
-                    Log.i("API", "Movement Success")
-                } else {
-                    Log.e("API", "Movement Error: ${response.code()} ${response.message()}")
-                }
-            }
+        val updateMovement = hashMapOf<String, Any>(
+            "movement" to directions
+        )
+        databaseReference.child("mode").child("manual").updateChildren(updateMovement)
+            .addOnCompleteListener {
+                Toast.makeText(context, "Movement", Toast.LENGTH_SHORT).show()
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("API", t.message, t)
-            }
-        })
-    }
-//    private fun autonomous(directions: String) {
-//        val body: RequestBody = directions.toRequestBody("text/plain;charset=utf-8".toMediaType())
-//        val call = BasicAuthClient<APIService>().create(APIService::class.java)
-//        call.autonomous(body).enqueue(object : Callback<ResponseBody> {
-//            override fun onResponse(
-//                call: Call<ResponseBody>,
-//                response: retrofit2.Response<ResponseBody>
-//            ) {
-//                if (response.isSuccessful) {
-//                    Log.i("API", "Autonomous Mode Online")
-//                } else {
-//                    Log.e("API", "Autonomous Mode Error: ${response.code()} ${response.message()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                Log.e("API", t.message, t)
-//            }
-//        })
-//    }
-
-    private fun leveling(directions: String) {
-        val body: RequestBody = directions.toRequestBody("text/plain;charset=utf-8".toMediaType())
-        val call = BasicAuthClient<APIService>().create(APIService::class.java)
-        call.leveling(body).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(
-                call: Call<ResponseBody>,
-                response: retrofit2.Response<ResponseBody>
-            ) {
-                if (response.isSuccessful) {
-                    Log.i("API", "Adjust the level")
-                } else {
-                    Log.e("API", "Adjust Error: ${response.code()} ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("API", t.message, t)
-            }
-        })
+            }.addOnFailureListener {
+            Toast.makeText(context, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun login() {
-        val call = BasicAuthClient<APIService>().create(APIService::class.java).login()
-        call.enqueue(object : Callback<Response> {
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
-                val stringResponse = response.body()?.toString()
-                if (response.isSuccessful) {
-                    Log.i("API", "Login Success")
-                    println(stringResponse)
-                    //view?.btn_on_off?.setBackgroundColor(ContextCompat.getColor(context!!, R.color.green))
-                    //view?.btn_on_off?.text = "ON"
-                    binding.btnOnOff.setBackgroundColor(
-                        ContextCompat.getColor(
-                            context!!,
-                            R.color.green
-                        )
-                    )
-                    binding.btnOnOff.text = "ON"
-                } else {
-                    Log.e("API", "Login Error: ${response.code()} ${response.message()}")
-                }
+    private fun adjustment(level: String) {
+        val updateLeveling = hashMapOf<String, Any>(
+            "adjustment" to level
+        )
+        databaseReference.child("mode").child("manual").updateChildren(updateLeveling)
+            .addOnCompleteListener {
+                Toast.makeText(context, "Adjust", Toast.LENGTH_SHORT).show()
 
-            }
-
-            override fun onFailure(call: Call<Response>, t: Throwable) {
-                Log.e("API", t.message, t)
-            }
-        })
+            }.addOnFailureListener {
+            Toast.makeText(context, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun shoveling(directions: String) {
-        val body: RequestBody = directions.toRequestBody("text/plain;charset=utf-8".toMediaType())
-        val call = BasicAuthClient<APIService>().create(APIService::class.java)
-        call.shoveling(body).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(
-                call: Call<ResponseBody>,
-                response: retrofit2.Response<ResponseBody>
-            ) {
-                if (response.isSuccessful) {
-                    Log.i("API", "Rotaty Working")
-                } else {
-                    Log.e("API", "Rotary Error: ${response.code()} ${response.message()}")
-                }
-            }
+    private fun rotary(state: String) {
+        val updateRotary = hashMapOf<String, Any>(
+            "rotary" to state
+        )
+        databaseReference.child("mode").child("manual").updateChildren(updateRotary)
+            .addOnCompleteListener {
+                Toast.makeText(context, "Adjust", Toast.LENGTH_SHORT).show()
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("API", t.message, t)
-            }
-        })
+            }.addOnFailureListener {
+            Toast.makeText(context, "ERROR: ${it.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
