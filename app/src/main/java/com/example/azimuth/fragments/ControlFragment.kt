@@ -2,6 +2,8 @@
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -11,25 +13,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.azimuth.Autonomous
-import com.example.azimuth.Manual
-import com.example.azimuth.Mode
 import com.example.azimuth.R
-import com.example.azimuth.Status
-import com.example.azimuth.api.APIService
-import com.example.azimuth.api.BasicAuthClient
 import com.example.azimuth.databinding.FragmentControlBinding
-import com.faizkhan.mjpegviewer.MjpegView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
+import androidx.core.view.isGone
 
 class ControlFragment : Fragment() {
     private var _binding: FragmentControlBinding? = null
@@ -44,6 +34,10 @@ class ControlFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentControlBinding.inflate(inflater, container, false)
+
+        binding.parentCardview.setOnClickListener {
+            toggleCardViewVisibility()
+        }
 
         val user = Firebase.auth.currentUser?.uid.toString()
 
@@ -137,10 +131,10 @@ class ControlFragment : Fragment() {
         binding.btnFrontCam.setOnClickListener {
             binding.btnFrontCam.isSelected = !binding.btnFrontCam.isSelected
             if (binding.btnFrontCam.isSelected) {
-                videoStreaming()
+//                videoStreaming()
                 Toast.makeText(context, "CAMERA ON", Toast.LENGTH_SHORT).show()
             } else if (!binding.btnFrontCam.isSelected) {
-                stopStreaming()
+//                stopStreaming()
                 Toast.makeText(context, "CAMERA OFF", Toast.LENGTH_SHORT).show()
             }
         }
@@ -164,29 +158,38 @@ class ControlFragment : Fragment() {
         return binding.root
     }
 
-    private fun videoStreaming() {
-        binding.streamCam.apply {
-            isAdjustHeight = true
-            mode1 = MjpegView.MODE_FIT_WIDTH
-            //rotation = 180.0F
-            //setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
-            setUrl("http://172.20.10.2:81/stream")
-            isRecycleBitmap1 = true
-            startStream()
+    private fun toggleCardViewVisibility() {
+        TransitionManager.beginDelayedTransition(binding.parentCardview, AutoTransition())
+        if (binding.nestedCardview.isGone) {
+            binding.nestedCardview.visibility = View.VISIBLE
+        } else {
+            binding.nestedCardview.visibility = View.GONE
         }
     }
 
-    private fun stopStreaming() {
-        binding.streamCam.apply {
-            isAdjustHeight = true
-            mode1 = MjpegView.MODE_FIT_WIDTH
-            rotation = 180.0F
-            //setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
-            setUrl("http://172.20.10.6:81/stream")
-            isRecycleBitmap1 = true
-            stopStream()
-        }
-    }
+//    private fun videoStreaming() {
+//        binding.streamCam.apply {
+//            isAdjustHeight = true
+//            mode1 = MjpegView.MODE_FIT_WIDTH
+//            //rotation = 180.0F
+//            //setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
+//            setUrl("http://172.20.10.2:81/stream")
+//            isRecycleBitmap1 = true
+//            startStream()
+//        }
+//    }
+
+//    private fun stopStreaming() {
+//        binding.streamCam.apply {
+//            isAdjustHeight = true
+//            mode1 = MjpegView.MODE_FIT_WIDTH
+//            rotation = 180.0F
+//            //setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
+//            setUrl("http://172.20.10.6:81/stream")
+//            isRecycleBitmap1 = true
+//            stopStream()
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

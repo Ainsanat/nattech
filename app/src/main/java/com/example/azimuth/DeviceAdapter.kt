@@ -20,6 +20,7 @@ class DeviceAdapter(private val deviceList: ArrayList<Device>) :
         val deviceID: TextView = itemView.findViewById(R.id.deviceID)
         val deviceItem: CardView = itemView.findViewById(R.id.item_device)
         val deviceEdit: ImageButton = itemView.findViewById(R.id.edit_device)
+        val deviceNum: TextView = itemView.findViewById(R.id.tv_no)
 
     }
 
@@ -30,8 +31,11 @@ class DeviceAdapter(private val deviceList: ArrayList<Device>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = deviceList[position]
+        val deviceItemNumber = position + 1
+
         holder.deviceItem.startAnimation(AnimationUtils.loadAnimation(holder.deviceItem.context, R.anim.fall_down))
         holder.apply {
+            deviceNum.text = deviceItemNumber.toString()
             deviceName.text = currentItem.name
             deviceID.text = currentItem.id
             deviceItem.setOnClickListener {

@@ -2,6 +2,7 @@ package com.example.azimuth.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
@@ -28,6 +29,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -45,7 +47,7 @@ import java.lang.Double.parseDouble
 import java.util.Locale
 
 @Suppress("DEPRECATION")
-class AutonomousFragment : Fragment(), OnMapReadyCallback {
+class AutonomousFragment : Fragment(), OnMapReadyCallback, SnapshotReadyCallback {
     private var _binding: FragmentAutonomousBinding? = null
     private val binding get() = _binding!!
 
@@ -98,6 +100,9 @@ class AutonomousFragment : Fragment(), OnMapReadyCallback {
             val allItems = locationAdapter.getAllItems()
             Log.d("RecyclerViewDataLocation", "$allItems")
 //            Toast.makeText(context, "$allItems", Toast.LENGTH_SHORT).show()
+        }
+        binding.backFab.setOnClickListener {
+
         }
 
         /*
@@ -153,9 +158,10 @@ class AutonomousFragment : Fragment(), OnMapReadyCallback {
                 location?.let {
                     val currentLatLng = LatLng(it.latitude, it.longitude)
                     googleMap.addMarker(
-                        MarkerOptions().position(currentLatLng).title("Current Location")
+                        MarkerOptions().position(currentLatLng)
                     )
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+
                     val latLng = LatLng(it.latitude, it.longitude)
                     val newLocationData = LocationItem(latLng)
                     locationList.add(newLocationData)
@@ -258,6 +264,15 @@ class AutonomousFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(p0: GoogleMap) {
         TODO("Not yet implemented")
+    }
+
+    override fun onSnapshotReady(p0: Bitmap?) {
+        // Handle the captured bitmap
+    }
+    private fun captureMapScreenshot() {
+        googleMap.snapshot {
+
+        }
     }
 
     /*
@@ -405,19 +420,6 @@ class AutonomousFragment : Fragment(), OnMapReadyCallback {
 
 
      */
-    //---unusable---
-//    private fun addMarkerToMap() {
-//        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-//        mapFragment.getMapAsync(OnMapReadyCallback {
-//            googleMap = it.apply {
-//                val location = createListOfLocations()
-//
-//                for (i in 0..location.size) {
-//                    addMarker(MarkerOptions().position(location[i]).title("Current Location"))
-//                }
-//            }
-//        })
-//    }
 
 }
 
