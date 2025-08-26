@@ -7,12 +7,11 @@ import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.GridView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.example.azimuth.GridAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.azimuth.GridViewModel
 import com.example.azimuth.R
 import com.example.azimuth.SignInActivity
@@ -30,6 +29,8 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import com.bumptech.glide.Glide
+import com.example.azimuth.DeviceStateAdapter
+import com.example.azimuth.StateDeviceItem
 
 @Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
@@ -71,6 +72,16 @@ class HomeFragment : Fragment() {
         ).format(Calendar.getInstance().time)
         binding.curDate.text = timeStamp
 
+        val recyclerView = binding.statusDeviceRecyclerview
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        val sDeviceItem = listOf(
+            StateDeviceItem("ESP32", "78%", "5 Km/hr", "40C"),
+            StateDeviceItem("ESP8266", "100%", "3 Km/hr", "42C")
+        )
+        val adapter = DeviceStateAdapter(sDeviceItem)
+        recyclerView.adapter = adapter
+
+        /*
         courseGrid = binding.gridv
         courseList = ArrayList()
 
@@ -84,6 +95,8 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, courseList[position].name + " selected", Toast.LENGTH_SHORT)
                 .show()
         }
+
+         */
 
         return binding.root
     }

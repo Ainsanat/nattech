@@ -38,8 +38,8 @@ internal class GridAdapter(
             convertView = layoutInflater!!.inflate(R.layout.gridview_item, null)
         }
         courseIV = convertView!!.findViewById(R.id.imagev)
-        courseIndicator = convertView!!.findViewById(R.id.textv_indicator)
-        courseTV = convertView!!.findViewById(R.id.textv)
+        courseIndicator = convertView!!.findViewById(R.id.tv_indicator)
+        courseTV = convertView!!.findViewById(R.id.tv_description)
 
         courseIV.setImageResource(courseList.get(p0).icon)
         courseIndicator.setText(courseList.get(p0).indicator)

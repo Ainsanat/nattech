@@ -20,6 +20,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import androidx.core.view.isGone
+import com.faizkhan.mjpegviewer.MjpegView
 
 class ControlFragment : Fragment() {
     private var _binding: FragmentControlBinding? = null
@@ -162,34 +163,36 @@ class ControlFragment : Fragment() {
         TransitionManager.beginDelayedTransition(binding.parentCardview, AutoTransition())
         if (binding.nestedCardview.isGone) {
             binding.nestedCardview.visibility = View.VISIBLE
+            startStreaming()
         } else {
             binding.nestedCardview.visibility = View.GONE
+            stopStreaming()
         }
     }
 
-//    private fun videoStreaming() {
-//        binding.streamCam.apply {
-//            isAdjustHeight = true
-//            mode1 = MjpegView.MODE_FIT_WIDTH
-//            //rotation = 180.0F
-//            //setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
+    private fun startStreaming() {
+        binding.streamingCamera.apply {
+            isAdjustHeight = true
+            mode1 = MjpegView.MODE_FIT_WIDTH
+            //rotation = 180.0F
+//            setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
 //            setUrl("http://172.20.10.2:81/stream")
-//            isRecycleBitmap1 = true
-//            startStream()
-//        }
-//    }
+            isRecycleBitmap1 = true
+            startStream()
+        }
+    }
 
-//    private fun stopStreaming() {
-//        binding.streamCam.apply {
-//            isAdjustHeight = true
-//            mode1 = MjpegView.MODE_FIT_WIDTH
-//            rotation = 180.0F
-//            //setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
+    private fun stopStreaming() {
+        binding.streamingCamera.apply {
+            isAdjustHeight = true
+            mode1 = MjpegView.MODE_FIT_WIDTH
+            rotation = 180.0F
+//            setUrl("https://bma-itic1.iticfoundation.org/mjpeg2.php?camid=test")
 //            setUrl("http://172.20.10.6:81/stream")
-//            isRecycleBitmap1 = true
-//            stopStream()
-//        }
-//    }
+            isRecycleBitmap1 = true
+            stopStream()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

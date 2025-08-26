@@ -9,3 +9,10 @@ data class CoordinateItem(
 data class LocationItem(
     val latLng: LatLng
 )
+data class StateDeviceItem(
+    val nameDevice: String? = null,
+    val battery: String? = null,
+    val velocity: String? = null,
+    val temperature: String? = null
+
+)

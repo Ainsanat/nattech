@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Bright_Gray"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingTop="40dp"
+    android:background="@color/Bright_Gray"
     tools:context=".fragments.DeviceFragment">
 
     <RelativeLayout
@@ -29,10 +29,10 @@
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:tint="@color/gray"
-            android:background="@color/Bright_Gray"
+            android:background="@color/white"
             android:src="@drawable/add_device"
-            app:cornerRadius="20dp" />
+            app:cornerRadius="20dp"
+            app:tint="@color/gray" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

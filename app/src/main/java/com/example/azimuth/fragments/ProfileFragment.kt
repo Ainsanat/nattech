@@ -40,7 +40,7 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         //Coding below here der jan
         binding.apply {
-            btnLogOut.setOnClickListener {
+            profileLogout.setOnClickListener {
 //                Toast.makeText(context, "Are you sure ti logout", Toast.LENGTH_SHORT).show()
                 Firebase.auth.signOut()
                 val intent = Intent(activity, SignInActivity::class.java)
